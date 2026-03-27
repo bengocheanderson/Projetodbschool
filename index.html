@@ -159,6 +159,7 @@
         const cadastrarBtn = document.getElementById("cadastrarBtn");
         const searchInput = document.getElementById("searchInput");
         const resultado = document.getElementById("resultado");
+        const relatorioBtn = document.getElementById("relatorioBtn");
         let alunoData = JSON.parse(localStorage.getItem("alunos")) || [];
 
         searchButton.addEventListener("click", buscarAluno);
@@ -218,6 +219,30 @@
             };
             alunoData.push(novoAluno);
             localStorage.setItem("alunos", JSON.stringify(alunoData));
+        }
+
+        relatorioBtn.addEventListener("click", gerarRelatorio);
+
+        function gerarRelatorio(){
+            if(alunoData.length === 0){
+                resultado.innerHTML = `<p style="color: red;">Nenhum aluno cadastrado para gerar relatório.</p>`;
+                return;
+            }
+
+            let html = "";
+            alunoData.forEach(aluno => {
+                html += `
+                <div class="card-aluno">
+                    <h3>${aluno.nome}</h3>
+                    <p>Matrícula: ${aluno.matricula}</p>
+                    <p>Turma: ${aluno.turma}</p>
+                    <p>Turno: ${aluno.turno}</p>
+                    <p>Idade: ${aluno.idade}</p>
+                </div>
+                `;
+            });
+            resultado.innerHTML = html;
+
         }
 
         themeToggle.addEventListener("click", () => {
